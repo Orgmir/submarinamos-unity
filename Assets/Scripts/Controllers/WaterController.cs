@@ -23,7 +23,6 @@ public class WaterController : MonoBehaviour {
 
 	private BuoyancyEffector2D effector;
 	private GameObject container;
-	private bool isPressingDown;
 
 	private float surfaceCurrentVelocity;
 
@@ -54,7 +53,12 @@ public class WaterController : MonoBehaviour {
 		container.transform.position = new Vector3 (container.transform.position.x, effector.surfaceLevel, container.transform.position.z);
 	}
 
-	void SetupColliderSize() {
+    public float GetWaterLevel()
+    {
+        return effector.surfaceLevel;    
+    }
+
+    void SetupColliderSize() {
 		BoxCollider2D boxCollider = GetComponent<BoxCollider2D> ();
 		boxCollider.size = new Vector2 (boxProps.boxWidth, boxProps.boxHeight);
 		boxCollider.offset = new Vector2 (boxCollider.size.x * 0.5f, -boxProps.maxSurfaceHeight);
