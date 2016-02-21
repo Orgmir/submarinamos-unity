@@ -5,22 +5,33 @@ using System.Collections.Generic;
 
 public class GameObjectPool
 {
-    private GameObject prefab;
-    private Queue<GameObject> queue;
+    public GameObject[] prefabs;
+    public GameObject container;
+    private Dictionary<int, GameObject> prefabDict;
+    private Dictionary<int, List<GameObject>> pool;
 
-    public GameObjectPool(GameObject prefab)
+    public GameObjectPool()
     {
-        this.prefab = prefab;
-        queue = new Queue<GameObject>();
+        prefabDict = new Dictionary<int, GameObject>();
+        pool = new Dictionary<int, List<GameObject>>();
+        for (int i = 0; i < prefabs.Length; i++) {
+            GameObject prefab = prefabs[i];
+            int id = prefab.GetInstanceID();
+            pool.Add(id, new List<GameObject>());
+            prefabDict.Add(id, prefab);
+        }
     }
 
-    public GameObject Dequeue(Vector3 pos)
+    public GameObject Dequeue(int prefabId)
     {
-        GameObject obj = queue.Dequeue();
+        List<GameObject> queue = pool[prefabId];
 
+        GameObject obj = GetInactiveObj(queue);
         if (obj == null)
         {
-            obj = GameObject.Instantiate(prefab, pos, Quaternion.identity) as GameObject;
+            obj = GameObject.Instantiate(prefabDict[prefabId]) as GameObject;
+            obj.transform.parent = container.transform;
+            queue.Add(obj);
         }
 
         obj.SetActive(true);
@@ -28,9 +39,12 @@ public class GameObjectPool
         return obj;
     }
 
-    public void recycle(GameObject obj)
-    {
-        obj.SetActive(false);
-        queue.Enqueue(obj);
+    private GameObject GetInactiveObj(List<GameObject> list) {
+        foreach (GameObject obj in list) {
+            if(!obj.activeInHierarchy) {
+                return obj;
+            }
+        }
+        return null;
     }
 }
