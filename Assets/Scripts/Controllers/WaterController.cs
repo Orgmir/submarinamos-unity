@@ -95,13 +95,5 @@ public class WaterController : MonoBehaviour {
 
 		Destroy (childPrefab);
 	}
-
-	Vector2 GetCameraSize() {
-		var cameraRightTop = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight, Camera.main.nearClipPlane));
-		var cameraLeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
-		var cameraWidth = cameraRightTop.x - cameraLeftBottom.x;
-		var cameraHeight = cameraRightTop.y - cameraLeftBottom.y;
-		return new Vector2 (cameraWidth, cameraHeight);
-	}
 }
 

@@ -3,7 +3,11 @@ using System.Collections;
 
 public class ColumnController : MonoBehaviour
 {
-    public int type = 0;
+	public enum ColumnType{
+		Top, Bottom
+	}
+
+    public ColumnType type = ColumnType.Top;
 
 //     public float disableDelay = 4f;
 

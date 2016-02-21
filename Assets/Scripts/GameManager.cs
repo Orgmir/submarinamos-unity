@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour {
 
 	// PlayerController playerController;
 	CloudSpawner cloudSpawner;
-	OldObstacleSpawner obstacleSpawner;
     WaterController waterController;
+    ObstacleGenerator obstacleGenerator;
 
 	public static bool gameHasStarted;
 
@@ -23,10 +23,12 @@ public class GameManager : MonoBehaviour {
 
 		// GameObject player = GameObject.FindWithTag ("Player");
 		// playerController = player.GetComponent<PlayerController> ();
-		cloudSpawner = GetComponentInChildren<CloudSpawner> ();	
-		obstacleSpawner = GetComponentInChildren<OldObstacleSpawner> ();
+		cloudSpawner = GetComponentInChildren<CloudSpawner> ();
         GameObject water = GameObject.FindWithTag("Water");
         waterController = water.GetComponent<WaterController>();
+
+        obstacleGenerator = GetComponentInChildren<ObstacleGenerator>();
+        obstacleGenerator.GenerateObstacles(70f);
     }
 
 	void Start () {
@@ -36,6 +38,10 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		if (!gameHasStarted && Input.GetMouseButton (0)) {
 			gameHasStarted = true;
+		}
+
+		if (Input.GetMouseButton(1)){
+			obstacleGenerator.GenerateObstacles(70f);
 		}
 	}
 
@@ -56,7 +62,6 @@ public class GameManager : MonoBehaviour {
 	void StartGame() {
 		if (generateObstacles) {
 			cloudSpawner.StartSpawn ();
-			obstacleSpawner.StartSpawn ();	
 		}
 	}
 

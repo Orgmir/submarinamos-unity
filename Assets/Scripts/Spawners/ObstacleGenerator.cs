@@ -3,8 +3,11 @@ using System.Collections;
 
 public class ObstacleGenerator : MonoBehaviour {
 
-	public float minX = -0.5f;
-	public float maxX = 1f;
+	public float minOffsetX = -0.5f;
+	public float maxOffsetX = 1f;
+    public float minOffsetY = 2f;
+    public float maxOffsetY = 4f;
+    public float startingX = 5f;
     public GameObject[] obstacles;
 
     public string seed;
@@ -18,32 +21,40 @@ public class ObstacleGenerator : MonoBehaviour {
     }
 
 	public void GenerateObstacles (float distance) {
+        ClearContainer();
+
 		if (useRandomSeed){
             seed = Time.time.ToString();
         }
 
-        System.Random random = new System.Random(seed.GetHashCode());
+        Random.seed = seed.GetHashCode();
 
-        float lastXPosition = 0;
+        float lastXPosition = startingX;
         do {
-            //TODO generate random position
-            //TODO save lastX
-            //Spawn object
+            float x = lastXPosition + Random.Range(minOffsetX, maxOffsetX);
+            float y = Random.Range(minOffsetY, maxOffsetY) * Mathf.Sign(Random.Range(-1, 1));
+
+            SpawnObstacle(lastXPosition, x, y);
+
+            lastXPosition = x;
         }while( lastXPosition < distance);
 	}
 
-	void SpawnObstacle(Vector3 pos) {
+	void SpawnObstacle(float lastX, float offsetX, float offsetY) {
         GameObject prefab = obstacles[Random.Range(0, obstacles.Length)];
         GameObject obj = GameObject.Instantiate(prefab) as GameObject;
-        obj.transform.position = pos;
+        //TODO get columnScript
+        //TODO get camera top and bottom
+        //TODO spawn columns in right place with 
+        // obj.transform.position = offset;
         obj.transform.parent = container.transform;
     }
 
-    // void SpawnSingle(GameObject obj, float lastX)
-    // {
-    //     Vector2 pos = new Vector2(lastXPos + Random.Range(minX, maxX), 0);
-    //     GameObject childObstacle = Instantiate(obj, pos, Quaternion.identity) as GameObject;
-    //     childObstacle.transform.parent = container.transform;
-    // }
+    void ClearContainer() {
+        for( int i = 0; i < container.transform.childCount; i++) {
+            GameObject child = container.transform.GetChild(i).gameObject;
+            GameObject.Destroy(child);
+        }
+    }
 
 }
