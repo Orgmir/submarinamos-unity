@@ -11,6 +11,7 @@ public class ObstacleSpawner : MonoBehaviour {
     public GameObjectPool[] botPools;
 
 	private GameObject container;
+    // private float lastXPos;
 
 	void Awake() {
 		container = new GameObject ();
@@ -34,11 +35,26 @@ public class ObstacleSpawner : MonoBehaviour {
 	}
 
 	void SpawnObstacle() {
-  //      var pool = pools[Random.Range(0, obstacles.Length)];
-		//Vector2 pos = new Vector2 (lastXPos + Random.Range (minX, maxX), 0);
-  //      GameObject obstacle = pool.Deque(pos);
-		//obstacle.transform.parent = container.transform;
-		//lastXPos = pos.x;
-	}
+        //GameObject obstacle = obstacles[Random.Range(0, obstacles.Length)];
+        //Vector2 pos = new Vector2(lastXPos + Random.Range(minX, maxX), 0);
+        //GameObject childObstacle = Instantiate(obstacle, pos, Quaternion.identity) as GameObject;
+        //childObstacle.transform.parent = container.transform;
+        //lastXPos = pos.x;
+
+        // Vector2 pos = new Vector2(lastXPos + Random.Range(minX, maxX), 0);
+        // GameObject obj = botPools[Random.Range(0, botPools.Length)].Dequeue(pos);
+
+        // Vector2 pos = new Vector2(lastXPos + Random.Range(minX, maxX), 0);
+        // GameObject childObstacle = Instantiate(obstacle, pos, Quaternion.identity) as GameObject;
+        // childObstacle.transform.parent = container.transform;
+        // lastXPos = pos.x;
+    }
+
+    // void SpawnSingle(GameObject obj, float lastX)
+    // {
+    //     Vector2 pos = new Vector2(lastXPos + Random.Range(minX, maxX), 0);
+    //     GameObject childObstacle = Instantiate(obj, pos, Quaternion.identity) as GameObject;
+    //     childObstacle.transform.parent = container.transform;
+    // }
 
 }

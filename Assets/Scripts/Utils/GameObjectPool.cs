@@ -14,7 +14,7 @@ public class GameObjectPool
         queue = new Queue<GameObject>();
     }
 
-    public GameObject Deque(Vector3 pos)
+    public GameObject Dequeue(Vector3 pos)
     {
         GameObject obj = queue.Dequeue();
 

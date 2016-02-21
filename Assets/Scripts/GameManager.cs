@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
 
-	PlayerController playerController;
+	public bool generateObstacles = true;
+
+	// PlayerController playerController;
 	CloudSpawner cloudSpawner;
 	OldObstacleSpawner obstacleSpawner;
     WaterController waterController;
@@ -19,8 +21,8 @@ public class GameManager : MonoBehaviour {
 		else if (instance != this)
 			Destroy (gameObject);
 
-		GameObject player = GameObject.FindWithTag ("Player");
-		playerController = player.GetComponent<PlayerController> ();
+		// GameObject player = GameObject.FindWithTag ("Player");
+		// playerController = player.GetComponent<PlayerController> ();
 		cloudSpawner = GetComponentInChildren<CloudSpawner> ();	
 		obstacleSpawner = GetComponentInChildren<OldObstacleSpawner> ();
         GameObject water = GameObject.FindWithTag("Water");
@@ -52,8 +54,10 @@ public class GameManager : MonoBehaviour {
     }
 
 	void StartGame() {
-		cloudSpawner.StartSpawn ();
-		obstacleSpawner.StartSpawn ();
+		if (generateObstacles) {
+			cloudSpawner.StartSpawn ();
+			obstacleSpawner.StartSpawn ();	
+		}
 	}
 
     public static float GetWaterLevel()
