@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-	public float horizontalSpeed = 5f;
+	public float horizontalMaxSpeed = 5f;
+    public float horizontalSpeed = 5f;
 	public float moveForce = 10f;
 	public float maxSpeed = 5f;
     public float rotationSpeed = .2f;
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 
         if (GameManager.gameHasStarted) {
             SaveSurfaceWaterDelta();
-            UpdateRotation();
+            //UpdateRotation();
         }
     }
 
@@ -55,7 +56,10 @@ public class PlayerController : MonoBehaviour {
 	public void DoMovement() {
         if (isInWater)
         {
-            rb2d.velocity = new Vector2(horizontalSpeed, rb2d.velocity.y);
+            rb2d.AddForce(new Vector2(horizontalSpeed, 0));
+            if(rb2d.velocity.x > horizontalMaxSpeed) {
+                rb2d.velocity = new Vector2(horizontalMaxSpeed, rb2d.velocity.y);      
+            }
         }
 	}
 
